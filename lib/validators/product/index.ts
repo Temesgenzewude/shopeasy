@@ -1,19 +1,21 @@
+import { formatNumber } from "@/lib/utils";
 import { z } from "zod";
 
-// schema for insergting a new product
+const currency = z
+  .string()
+  .refine((value) => /^\d+(\.\d{2})?$/.test(formatNumber(Number(value))), {
+    message: "Price must be a valid number with two decimal places",
+  });
+// schema for inserting a new product
 export const createProductSchema = z.object({
   name: z
     .string("Product name is required!")
     .min(3, "Product name must be at least 3 characters"),
   description: z
-    .string("Product description is required!")
-    .min(10, "Product description must be at least 10 characters"),
-  price: z.string().refine(
-    (value) => /^\d+(\.\d{2})?$/.test(for),
-    {
-      message: "Product price must be a number",
-    }
-  ),
+    .string()
+    .min(10, "Product description must be at least 10 characters")
+    .optional(),
+  price: currency,
   stock: z.coerce
     .number("Product stock must be a number")
     .min(0, "Stock cannot be negative")
