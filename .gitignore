@@ -42,3 +42,5 @@ next-env.d.ts
 
 /lib/generated/prisma
 /premium-docs/
+/db/sample-data.ts
+/db/seed.ts
